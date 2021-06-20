@@ -6,4 +6,4 @@ import { FrontendDeployStack } from "../lib/frontend-deploy-stack";
 
 const app = new cdk.App();
 new ServicesStack(app, "P13cBackendServicesStack");
-new FrontendDeployStack(app, "P13bFrontendDeployStack");
+new FrontendDeployStack(app, "P13cFrontendDeployStack");

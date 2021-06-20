@@ -39,6 +39,6 @@ export class FrontendDeployStack extends cdk.Stack {
       value: p13cDistribution.domainName,
     });
 
-    cdk.Tags.of(this).add("Project", "P13c-Bookmarking-App-with-AWS");
+    cdk.Tags.of(this).add("Project", "P13c-Virtual-Lolly-App-with-AWS");
   }
 }
