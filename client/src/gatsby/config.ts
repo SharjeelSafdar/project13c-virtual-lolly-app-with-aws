@@ -1,23 +1,35 @@
 import { GatsbyConfig } from "gatsby";
+import dotenv from "dotenv";
+
+import awsConfig from "../aws-exports";
+
+dotenv.config({
+  path: `.env.${process.env.NODE_ENV}`,
+});
 
 export default {
   siteMetadata: {
     title: `Virtual Lolly App`,
     description: `A Serverless JAMstack Virtual Lolly App With Gatsby, Storybook, DynamoDB, AppSync, Lambda, CloudFront and TypeScript`,
-    author: `Mian Muhammad Sharjeel Safdar`,
+    author: {
+      name: `Mian Muhammad Sharjeel Safdar`,
+      email: `miansharjeelsafdar@gmail.com`,
+      github: `https://github.com/SharjeelSafdar/`,
+    },
   },
   plugins: [
-    `gatsby-plugin-react-helmet`,
-    `gatsby-plugin-image`,
     {
-      resolve: `gatsby-source-filesystem`,
+      resolve: `gatsby-source-graphql`,
       options: {
-        name: `images`,
-        path: `${__dirname}/../images`,
+        typeName: `graphqlAppsync`,
+        fieldName: `virtualLolly`,
+        url: awsConfig.aws_appsync_graphqlEndpoint,
+        headers: {
+          "x-api-key": awsConfig.aws_appsync_apiKey,
+        },
       },
     },
-    `gatsby-transformer-sharp`,
-    `gatsby-plugin-sharp`,
+    `gatsby-plugin-react-helmet`,
     {
       resolve: `gatsby-plugin-manifest`,
       options: {
@@ -30,9 +42,5 @@ export default {
         icon: `src/images/gatsby-icon.png`, // This path is relative to the root of the site.
       },
     },
-    `gatsby-plugin-gatsby-cloud`,
-    // this (optional) plugin enables Progressive Web App + Offline functionality
-    // To learn more, visit: https://gatsby.dev/offline
-    // `gatsby-plugin-offline`,
   ],
 } as GatsbyConfig;
