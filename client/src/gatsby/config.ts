@@ -1,6 +1,8 @@
 import { GatsbyConfig } from "gatsby";
 import dotenv from "dotenv";
 
+import awsConfig from "../aws-exports";
+
 dotenv.config({
   path: `.env.${process.env.NODE_ENV}`,
 });
@@ -16,6 +18,17 @@ export default {
     },
   },
   plugins: [
+    {
+      resolve: `gatsby-source-graphql`,
+      options: {
+        typeName: `graphqlAppsync`,
+        fieldName: `virtualLolly`,
+        url: awsConfig.aws_appsync_graphqlEndpoint,
+        headers: {
+          "x-api-key": awsConfig.aws_appsync_apiKey,
+        },
+      },
+    },
     `gatsby-plugin-react-helmet`,
     {
       resolve: `gatsby-plugin-manifest`,
