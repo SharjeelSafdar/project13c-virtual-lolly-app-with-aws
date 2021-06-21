@@ -59,7 +59,7 @@ export class ServicesStack extends cdk.Stack {
       fieldName: "createLolly",
       requestMappingTemplate: appsync.MappingTemplate.dynamoDbPutItem(
         appsync.PrimaryKey.partition("id").auto(),
-        appsync.Values.projecting()
+        appsync.Values.projecting("newLolly")
       ),
       responseMappingTemplate: appsync.MappingTemplate.dynamoDbResultItem(),
     });
