@@ -1,22 +1,16 @@
-import React, { FC, useState } from "react";
-import { navigate } from "gatsby";
-import { API } from "aws-amplify";
+import React, { FC } from "react";
 import { Formik, Form, Field } from "formik";
 import * as Yup from "yup";
 
 import Lolly from "../lolly";
-import { createLolly } from "../../graphql/mutations";
-import {
-  CreateLollyMutation,
-  CreateLollyMutationVariables,
-  NewLollyInput,
-} from "../../graphql/api";
+import { useLollyContext } from "../../context/lollyContext";
+import { NewLollyInput } from "../../graphql/api";
 
 /**
  * A form to create a new lolly for a recipient from a sender with a custom message.
  */
 const NewLollyForm: FC = () => {
-  const [isCreating, setIsCreating] = useState(false);
+  const { isCreating, createNewLolly } = useLollyContext();
 
   const initialValues: NewLollyInput = {
     topColor: "#cd2753",
@@ -36,21 +30,8 @@ const NewLollyForm: FC = () => {
     sendersName: Yup.string().required("Required"),
   });
 
-  const onSubmit = async (values: NewLollyInput) => {
-    setIsCreating(true);
-    try {
-      const variables: CreateLollyMutationVariables = { newLolly: values };
-      const response = (await API.graphql({
-        query: createLolly,
-        variables,
-      })) as { data: CreateLollyMutation };
-
-      setIsCreating(false);
-      navigate(`/lolly/${response.data.createLolly.id}`);
-    } catch (err) {
-      console.log("Error creating new lolly: ", err);
-      setIsCreating(false);
-    }
+  const onSubmit = (values: NewLollyInput) => {
+    createNewLolly(values);
   };
 
   return (
