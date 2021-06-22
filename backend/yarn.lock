@@ -21,6 +21,32 @@
     "@aws-cdk/cx-api" "1.109.0"
     constructs "^3.3.69"
 
+"@aws-cdk/aws-apigatewayv2-integrations@^1.109.0":
+  version "1.109.0"
+  resolved "https://registry.yarnpkg.com/@aws-cdk/aws-apigatewayv2-integrations/-/aws-apigatewayv2-integrations-1.109.0.tgz#827e894221b120ea7285f821f770e4536fd4a332"
+  integrity sha512-ragAfRQl6qjEi8BUWYBKiUmYuc7FSBHZQ00pAiFNlgG/66S1NbUddFAaT8fOPxwRmPJl/QpSWm5Rq0XrDQpHAw==
+  dependencies:
+    "@aws-cdk/aws-apigatewayv2" "1.109.0"
+    "@aws-cdk/aws-ec2" "1.109.0"
+    "@aws-cdk/aws-elasticloadbalancingv2" "1.109.0"
+    "@aws-cdk/aws-iam" "1.109.0"
+    "@aws-cdk/aws-lambda" "1.109.0"
+    "@aws-cdk/aws-servicediscovery" "1.109.0"
+    "@aws-cdk/core" "1.109.0"
+    constructs "^3.3.69"
+
+"@aws-cdk/aws-apigatewayv2@1.109.0", "@aws-cdk/aws-apigatewayv2@^1.109.0":
+  version "1.109.0"
+  resolved "https://registry.yarnpkg.com/@aws-cdk/aws-apigatewayv2/-/aws-apigatewayv2-1.109.0.tgz#5ac37181c80b7fb0d2880adf5149d092e437c70a"
+  integrity sha512-K71buVyRnfddlIR8KURQuSYiTfFaG+aSXGWLyR4o6qDQNu6yT4jdmO433fkBVpSmkOYlA74fRNcYSbsXkTpyiw==
+  dependencies:
+    "@aws-cdk/aws-certificatemanager" "1.109.0"
+    "@aws-cdk/aws-cloudwatch" "1.109.0"
+    "@aws-cdk/aws-ec2" "1.109.0"
+    "@aws-cdk/aws-iam" "1.109.0"
+    "@aws-cdk/core" "1.109.0"
+    constructs "^3.3.69"
+
 "@aws-cdk/aws-applicationautoscaling@1.109.0":
   version "1.109.0"
   resolved "https://registry.yarnpkg.com/@aws-cdk/aws-applicationautoscaling/-/aws-applicationautoscaling-1.109.0.tgz#4c5a5b6ca9161dd6e88864f5fdd18477bfcbabca"
@@ -405,6 +431,17 @@
     "@aws-cdk/aws-sam" "1.109.0"
     "@aws-cdk/core" "1.109.0"
     "@aws-cdk/cx-api" "1.109.0"
+    constructs "^3.3.69"
+
+"@aws-cdk/aws-servicediscovery@1.109.0":
+  version "1.109.0"
+  resolved "https://registry.yarnpkg.com/@aws-cdk/aws-servicediscovery/-/aws-servicediscovery-1.109.0.tgz#c702c2a6bf26a634f99f52c9638102672b30db4e"
+  integrity sha512-sqcNuAQve/CU1Oae7igs2frb9Y1tFtYFrWk4kxnaikcEfxGmssJ44tkWelbrbq+NJ5tex2gmBCpy9G84LGRyMQ==
+  dependencies:
+    "@aws-cdk/aws-ec2" "1.109.0"
+    "@aws-cdk/aws-elasticloadbalancingv2" "1.109.0"
+    "@aws-cdk/aws-route53" "1.109.0"
+    "@aws-cdk/core" "1.109.0"
     constructs "^3.3.69"
 
 "@aws-cdk/aws-signer@1.109.0":

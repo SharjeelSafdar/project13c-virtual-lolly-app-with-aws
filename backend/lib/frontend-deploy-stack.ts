@@ -4,14 +4,9 @@ import * as s3Deploy from "@aws-cdk/aws-s3-deployment";
 import * as lambda from "@aws-cdk/aws-lambda";
 import * as cloudFront from "@aws-cdk/aws-cloudfront";
 import * as origins from "@aws-cdk/aws-cloudfront-origins";
-import * as ddb from "@aws-cdk/aws-dynamodb";
-
-interface FrontendDeployStackProps extends cdk.StackProps {
-  lolliesTableName: string;
-}
 
 export class FrontendDeployStack extends cdk.Stack {
-  constructor(scope: cdk.Construct, id: string, props?: FrontendDeployStackProps) {
+  constructor(scope: cdk.Construct, id: string, props?: cdk.StackProps) {
     super(scope, id, props);
 
     // Create a bucket to upload the Gatsby static web app
@@ -38,9 +33,6 @@ export class FrontendDeployStack extends cdk.Stack {
         code: lambda.Code.fromAsset("edgeLambda"),
       }
     );
-
-    const lolliesTable = ddb.Table.fromTableName(this, "LolliesTable", props?.lolliesTableName as string);
-    lolliesTable.grantReadData(p13cSsrFunctionForLollies)
 
     const s3Origin = new origins.S3Origin(p13cBucketForFrontendAssets);
     // Create a CDN to deploy the website
