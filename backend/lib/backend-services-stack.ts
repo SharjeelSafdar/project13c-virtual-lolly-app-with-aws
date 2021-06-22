@@ -3,13 +3,14 @@ import * as appsync from "@aws-cdk/aws-appsync";
 import * as ddb from "@aws-cdk/aws-dynamodb";
 
 export class ServicesStack extends cdk.Stack {
+  public readonly lolliesTableName: string;
   constructor(scope: cdk.Construct, id: string, props?: cdk.StackProps) {
     super(scope, id, props);
 
-    const tableName = "LolliesTable";
+    this.lolliesTableName = "LolliesTable";
 
     const lolliesTable = new ddb.Table(this, "P13cLolliesTable", {
-      tableName,
+      tableName: this.lolliesTableName,
       partitionKey: {
         name: "id",
         type: ddb.AttributeType.STRING,

@@ -1,0 +1,9 @@
+{
+  "name": "edgeLambda",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "dependencies": {
+    "aws-sdk": "^2.932.0"
+  }
+}
