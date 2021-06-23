@@ -1,11 +1,11 @@
 import { GatsbyConfig } from "gatsby";
 import dotenv from "dotenv";
 
-if (process.env.NODE_ENV === "development") {
-  dotenv.config({
-    path: `.env.${process.env.NODE_ENV}`,
-  });
-}
+import awsConfig from "../aws-exports";
+
+dotenv.config({
+  path: `.env.${process.env.NODE_ENV}`,
+});
 
 export default {
   siteMetadata: {
@@ -23,9 +23,9 @@ export default {
       options: {
         typeName: `graphqlAppsync`,
         fieldName: `virtualLolly`,
-        url: process.env.AWS_APPSYNC_GRAPHQL_ENDPOINT,
+        url: awsConfig.aws_appsync_graphqlEndpoint,
         headers: {
-          "x-api-key": process.env.AWS_APPSYNC_API_KEY,
+          "x-api-key": awsConfig.aws_appsync_apiKey,
         },
       },
     },
