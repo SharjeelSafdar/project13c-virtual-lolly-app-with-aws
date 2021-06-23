@@ -61,7 +61,7 @@ export const handler: CloudFrontResponseHandler = async (
       if (!res.Item) {
         throw new Error(`No item found, id: + ${lollyId}`);
       }
-      response = lollyPageResponse(response, res.Item as Lolly);
+      response = lollyPageResponse(response, res.Item as Lolly, distDomain);
     } catch (err) {
       console.log("Error fetching lolly from DDB: ", err);
       response = redirectTo404Response(response, `${distDomain}/404`);
@@ -93,7 +93,11 @@ const getLollyFromDdb = async (id: string) => {
     .promise();
 };
 
-const lollyPageResponse = (response: CFResponse, lollyData: Lolly) => {
+const lollyPageResponse = (
+  response: CFResponse,
+  lollyData: Lolly,
+  cfDistDomain: string
+) => {
   response.status = "200";
   response.statusDescription = "OK";
   response.headers["content-type"] = [
@@ -108,7 +112,7 @@ const lollyPageResponse = (response: CFResponse, lollyData: Lolly) => {
       value: `max-age=${cacheControlMaxAge}`,
     },
   ];
-  response.body = lollyTemplate(lollyData);
+  response.body = lollyTemplate(lollyData, cfDistDomain);
 
   return response;
 };

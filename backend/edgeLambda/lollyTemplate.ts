@@ -1,6 +1,6 @@
 import { Lolly } from "./types";
 
-export default (data: Lolly) => `
+export default (data: Lolly, cfDistDomain: string) => `
 <!doctype html>
 <html lang="en">
   <head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="stylesheet" href="/css/styles.css">
@@ -249,7 +249,7 @@ export default (data: Lolly) => `
           </svg>
         </div>
         <div class="info">
-          <p class="share">Your lolly is freezing. Share it with this link: <pre>https://d3jpcje5sd6l0u.cloudfront.net/lolly/${data.id}</pre></p>
+          <p class="share">Your lolly is freezing. Share it with this link: <pre>${cfDistDomain}/lolly/${data.id}</pre></p>
           <div class="details">
             <p id="recipient" class="recipient">${data.recipientName}</p>
             <div id="message" class="message">${data.message}</div>
