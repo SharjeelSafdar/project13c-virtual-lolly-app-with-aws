@@ -7,26 +7,44 @@
   Project 13C: Serverless JAMstack Virtual Lolly App With Gatsby, Storybook, DynamoDB, AppSync, Lambda, CloudFront and TypeScript
 </h1>
 
-### Link to Web App
+## Link to Web App
 
-The web app has been deployed to Netlify, and can be accessed [here](https://virtual-lolly-p12e.netlify.app/), and the Storybook of the components can be accessed [here](https://virtual-lolly-storybook-p12e.netlify.app/).
+The web app has been deployed to AWS CloudFront, and can be accessed [here](https://d3qfzh71og45l0.cloudfront.net/).
 
-### Features
+## Features
 
 The following are some of the features of this project:
 
 - A form for creating a new Lolly at "/create-new" using [Formik](https://formik.org/docs/overview) and [Yup](https://github.com/jquense/yup)
-- Uses [FaunaDB](https://fauna.com/) to store the information about all the lollipops
-- A GraphQL API deployed as a Netlify function at "/new" to interact with FaunaDB
-- All lollies are fetched and static pages are built for each one at build time.
-- A Netlify function (showLolly) as an SSR fallback: all lollies not having a static page are redirected to this function.
+- Uses [DynamoDB](https://aws.amazon.com/dynamodb/) table to store the information about all the lollipops
+- A GraphQL API with [AWS AppSync](https://aws.amazon.com/appsync/) to interact with DynamoDB
+- All lollies are fetched, and static pages are built for each one at build time.
+- A [Lambda@Edge Function](https://aws.amazon.com/lambda/edge/) works an SSR fallback: all lollies not having a static page are redirected to this function.
 - The project is built using the Component Driven Development (CDD) approach with [Storybook](https://storybook.js.org/)
-- The Storybook is also built and deployed [here](https://virtual-lolly-storybook-p12e.netlify.app/).
-- Demonstrates CRUD operations using FaunDB through the GraphQL API
+- Demonstrates CRUD operations using DynamoDB through the GraphQL API
+- Uses [Amplify](https://amplify.com/) for GraphQL queries and mutations at client side
 - Bootstrapped with [GatsbyJS](https://www.gatsbyjs.com/)
 - Additionally, includes TypeScript support for gatsby-config, gatsby-node, gatsby-browser and gatsby-ssr files
-- Site hosted on [Netlify](https://www.netlify.com/)
-- CI/CD with Netlify
-- CI/CD for Storybook is handled with Github Actions.
-- Completely typed with TypeScript
+- Site hosted on [AWS CloudFront](https://aws.amazon.com/cloudfront/)
+- CI/CD with [GitHub Actions](https://docs.github.com/en/actions)
+- Completely typed with [TypeScript](https://www.typescriptlang.org/)
 - Completely interactive and responsive design with vanilla CSS.
+
+## Backend
+
+This AWS CDK App deploys the backend infrastructure for [Project 13C](https://github.com/SharjeelSafdar/project13c-virtual-lolly-app-with-aws). The app consists of two stacks.
+
+### Stack 1: AppSync GraphQL API and DynamoDB Table
+
+It contanis the AWS services used by the web client. It has the following constructs:
+
+- A DynamoDB Table to contain the lollies saved by the users
+- An AppSync GraphQL API to access the lollies in the Table
+
+### Stack 2: CloudFront Distribution, S3 Bucket and Lambda Edge
+
+It contains the infrastructure to deploy frontend client. It has the following constructs:
+
+- A S3 Bucket with public access to store the static assets of Gatsby web app
+- A Cloud Front Distribution to serve the static assets through a CDN
+- A Lambda@Edge function triggered at `origin_response` event that tries to build and serve a static page for a lolly for which there is no static page in the S3 bucket yet. Otherwise, it redirects to `/404` page
