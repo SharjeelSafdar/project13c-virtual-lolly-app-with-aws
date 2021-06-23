@@ -62,6 +62,11 @@ jobs:
       - name: Build Gatsby App
         working-directory: client
         run: npm run build
+        env:
+          AWS_APPSYNC_GRAPHQL_ENDPOINT: ${{ secrets.AWS_APPSYNC_GRAPHQL_ENDPOINT }}
+          AWS_PROJECT_REGION: ${{ secrets.AWS_PROJECT_REGION }}
+          AWS_APPSYNC_API_KEY: ${{ secrets.AWS_APPSYNC_API_KEY }}
+          AWS_CLOUDFRONT_DOMAIN: ${{ secrets.AWS_CLOUDFRONT_DOMAIN }}
 
       - name: Deploy Static Site to S3 Bucket
         uses: jakejarvis/s3-sync-action@master
