@@ -19,8 +19,7 @@ The following are some of the features of this project:
 - Uses [DynamoDB](https://aws.amazon.com/dynamodb/) table to store the information about all the lollipops
 - A GraphQL API with [AWS AppSync](https://aws.amazon.com/appsync/) to interact with DynamoDB
 - All lollies are fetched, and static pages are built for each one at build time.
-- A [Lambda@Edge Function](https://aws.amazon.com/lambda/edge/) works an SSR fallback: all lollies not having a static page are redirected to this function.
-- The project is built using the Component Driven Development (CDD) approach with [Storybook](https://storybook.js.org/)
+- A [Lambda@Edge Function](https://aws.amazon.com/lambda/edge/) works as an SSR fallback: all lollies not having a static page are redirected to this function.
 - Demonstrates CRUD operations using DynamoDB through the GraphQL API
 - Uses [Amplify](https://amplify.com/) for GraphQL queries and mutations at client side
 - Bootstrapped with [GatsbyJS](https://www.gatsbyjs.com/)
@@ -36,7 +35,7 @@ This AWS CDK App deploys the backend infrastructure for [Project 13C](https://gi
 
 ### Stack 1: AppSync GraphQL API and DynamoDB Table
 
-It contanis the AWS services used by the web client. It has the following constructs:
+It contanis of the AWS services used by the web client. It has the following constructs:
 
 - A DynamoDB Table to contain the lollies saved by the users
 - An AppSync GraphQL API to access the lollies in the Table
