@@ -69,10 +69,6 @@ export class ServicesStack extends cdk.Stack {
       value: gqlApi.apiId,
     });
 
-    new cdk.CfnOutput(this, "P13cGraphQLApiKey", {
-      value: gqlApi.apiKey || "Key not found or configured!",
-    });
-
     cdk.Tags.of(this).add("Project", "P13c-Virtual-Lolly-App-with-AWS");
   }
 }
