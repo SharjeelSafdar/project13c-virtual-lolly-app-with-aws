@@ -1,9 +1,6 @@
 import * as cdk from "@aws-cdk/core";
 import * as appsync from "@aws-cdk/aws-appsync";
 import * as ddb from "@aws-cdk/aws-dynamodb";
-import * as lambda from "@aws-cdk/aws-lambda";
-import * as apigw from "@aws-cdk/aws-apigatewayv2";
-import * as apigwInteg from "@aws-cdk/aws-apigatewayv2-integrations";
 
 export class ServicesStack extends cdk.Stack {
   public readonly lolliesTableName: string;
@@ -67,22 +64,6 @@ export class ServicesStack extends cdk.Stack {
       ),
       responseMappingTemplate: appsync.MappingTemplate.dynamoDbResultItem(),
     });
-
-    const ssrLambda = new lambda.Function(this, "P13cSsrLambda", {
-      functionName: "P13cSsrLambda",
-      runtime: lambda.Runtime.NODEJS_14_X,
-      code: lambda.Code.fromAsset("ssrLambda"),
-      handler: "index.handler",
-    });
-
-    const apiForLambda = new apigw.HttpApi(this, "P13cHttpApiFor Lambda")
-    apiForLambda.addRoutes({
-      path: "/lolly",
-      methods: [apigw.HttpMethod.ANY],
-      integration: new apigwInteg.LambdaProxyIntegration({
-        handler: ssrLambda,
-      })
-    })
 
     new cdk.CfnOutput(this, "P13cGraphQLApiId", {
       value: gqlApi.apiId,

@@ -1,12 +1,20 @@
 import * as cdk from "@aws-cdk/core";
 import * as s3 from "@aws-cdk/aws-s3";
-import * as s3Deploy from "@aws-cdk/aws-s3-deployment";
 import * as lambda from "@aws-cdk/aws-lambda";
 import * as cloudFront from "@aws-cdk/aws-cloudfront";
 import * as origins from "@aws-cdk/aws-cloudfront-origins";
+import * as ddb from "@aws-cdk/aws-dynamodb";
+
+interface FrontendDeployStackProps extends cdk.StackProps {
+  lolliesTableName: string;
+}
 
 export class FrontendDeployStack extends cdk.Stack {
-  constructor(scope: cdk.Construct, id: string, props?: cdk.StackProps) {
+  constructor(
+    scope: cdk.Construct,
+    id: string,
+    props: FrontendDeployStackProps
+  ) {
     super(scope, id, props);
 
     // Create a bucket to upload the Gatsby static web app
@@ -24,15 +32,21 @@ export class FrontendDeployStack extends cdk.Stack {
       }
     );
 
-    const p13cSsrFunctionForLollies = new cloudFront.experimental.EdgeFunction(
+    const p13cSsrLolliesFunction = new cloudFront.experimental.EdgeFunction(
       this,
-      "P13cSsrFunctionForLollies",
+      "P13cSsrLolliesFunction",
       {
         runtime: lambda.Runtime.NODEJS_14_X,
         handler: "index.handler",
         code: lambda.Code.fromAsset("edgeLambda"),
       }
     );
+    const lolliesTable = ddb.Table.fromTableName(
+      this,
+      "P13cLolliesTable",
+      props.lolliesTableName
+    );
+    lolliesTable.grantReadData(p13cSsrLolliesFunction);
 
     const s3Origin = new origins.S3Origin(p13cBucketForFrontendAssets);
     // Create a CDN to deploy the website
@@ -44,35 +58,22 @@ export class FrontendDeployStack extends cdk.Stack {
           origin: s3Origin,
           edgeLambdas: [
             {
-              functionVersion: p13cSsrFunctionForLollies.currentVersion,
+              functionVersion: p13cSsrLolliesFunction.currentVersion,
               eventType: cloudFront.LambdaEdgeEventType.ORIGIN_RESPONSE,
             },
           ],
         },
         defaultRootObject: "index.html",
-        // additionalBehaviors: {
-        //   "lolly/*": {
-        //     origin: s3Origin,
-        //     edgeLambdas: [
-        //       {
-        //         functionVersion: p13cSsrFunctionForLollies.currentVersion,
-        //         eventType: cloudFront.LambdaEdgeEventType.ORIGIN_RESPONSE,
-        //       },
-        //     ],
-        //   },
-        // },
       }
     );
-
-    new s3Deploy.BucketDeployment(this, "DeployGatsyP13cApp", {
-      destinationBucket: p13cBucketForFrontendAssets,
-      sources: [s3Deploy.Source.asset("../client/public")],
-      distribution: p13cDistribution,
-    });
 
     // Prints out the web endpoint to the terminal
     new cdk.CfnOutput(this, "P13cDistributionDomainName", {
       value: p13cDistribution.domainName,
+    });
+
+    new cdk.CfnOutput(this, "LolliesTableName", {
+      value: props.lolliesTableName,
     });
 
     cdk.Tags.of(this).add("Project", "P13c-Virtual-Lolly-App-with-AWS");
