@@ -48,10 +48,15 @@ jobs:
         uses: actions/setup-node@v2
         with: { node-version: "14.15.0" }
 
-      - name: Install Dependencies
+      - name: Install Dependencies for CDK App
         uses: bahmutov/npm-install@v1
         with:
           working-directory: backend
+
+      - name: Install Dependencies for Lambda Edge
+        uses: bahmutov/npm-install@v1
+        with:
+          working-directory: backend/edgeLambda
 
       - name: Build CDK App with TypeScript Compiler
         working-directory: backend
