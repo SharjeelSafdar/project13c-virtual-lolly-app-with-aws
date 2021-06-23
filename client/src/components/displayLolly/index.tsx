@@ -5,7 +5,7 @@ import Lolly from "../lolly";
 import { Lolly as LollyType } from "../../graphql/api";
 import awsConfig from "../../aws-exports";
 
-export type DisplayLollyProps = LollyType;
+export type DisplayLollyProps = Partial<LollyType>;
 
 /**
  * A component to display a lolly created by a user along with a message card.
@@ -15,9 +15,9 @@ const DisplayLolly: FC<DisplayLollyProps> = lolly => {
     <div className="lolly">
       <div className="giftLolly">
         <Lolly
-          topColor={lolly.topColor}
-          middleColor={lolly.middleColor}
-          bottomColor={lolly.bottomColor}
+          topColor={lolly.topColor || "#d52358"}
+          middleColor={lolly.middleColor || "#e95946"}
+          bottomColor={lolly.bottomColor || "#deaa43"}
         />
       </div>
       <div className="info">
@@ -25,18 +25,18 @@ const DisplayLolly: FC<DisplayLollyProps> = lolly => {
           Your lolly is freezing. Share it with this link:{" "}
         </p>
         <pre>
-          https://{awsConfig.aws_cloudfront_domain}/lolly/{lolly.id}
+          https://{awsConfig.aws_cloudfront_domain}/lolly?id={lolly.id}
         </pre>
         <p></p>
         <div className="details">
           <p id="recipient" className="recipient">
-            {lolly.recipientName}
+            {lolly.recipientName || "to"}
           </p>
           <div id="message" className="message">
-            {lolly.message}
+            {lolly.message || "message..."}
           </div>
           <p id="from" className="from">
-            — {lolly.sendersName}
+            — {lolly.sendersName || "from"}
           </p>
         </div>
         <p className="bytheway">
