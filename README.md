@@ -35,7 +35,7 @@ This AWS CDK App deploys the backend infrastructure for [Project 13C](https://gi
 
 ### Stack 1: AppSync GraphQL API and DynamoDB Table
 
-It contanis of the AWS services used by the web client. It has the following constructs:
+It contanis the AWS services used by the web client. It has the following constructs:
 
 - A DynamoDB Table to contain the lollies saved by the users
 - An AppSync GraphQL API to access the lollies in the Table
