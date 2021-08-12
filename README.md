@@ -40,6 +40,10 @@ It contanis the AWS services used by the web client. It has the following constr
 - A DynamoDB Table to contain the lollies saved by the users
 - An AppSync GraphQL API to access the lollies in the Table
 
+<p align="center">
+  <img alt="Architecture Diagram" src="./backend/P13c AWS Architecture.jpg" />
+</p>
+
 ### Stack 2: CloudFront Distribution, S3 Bucket and Lambda Edge
 
 It contains the infrastructure to deploy frontend client. It has the following constructs:
